@@ -6,9 +6,10 @@
 #include <stdio.h>
 #include <time.h>
 #include "mpi.h"
+#include <stdbool.h>
 
 // Size of the matrix (NxN)
-#define N 2000
+#define N 1000
 
 MPI_Status status;
 
@@ -60,7 +61,7 @@ int main(int argc, char **argv)
         // Initialize a timer
         clock_t begin = clock();
 
-        printf("Multiplying a %d by %d matrix using %d processors.\n", N, N, numberOfProcessors);
+        printf("Multiplying a %dx%d matrix using %d processors.\n", N, N, numberOfProcessors);
 
         // Populate the matrices with values
         for (i = 0; i < N; i++)
@@ -107,16 +108,18 @@ int main(int argc, char **argv)
         // Stop the timer
         clock_t end = clock();
 
-        // Print the matrix results
-        // @todo write this to a file instead
-        printf("Resulting matrix:\n");
-        for (i = 0; i < N; i++)
+        // Optionally print  matrix results
+        if (printResults == true)
         {
-            for (j = 0; j < N; j++)
+            printf("Resulting matrix:\n");
+            for (i = 0; i < N; i++)
             {
-                printf("%6.2f   ", productMatrix[i][j]);
+                for (j = 0; j < N; j++)
+                {
+                    printf("%6.2f   ", productMatrix[i][j]);
+                }
+                printf("\n");
             }
-            printf("\n");
         }
 
         // Determine and print the total run time
