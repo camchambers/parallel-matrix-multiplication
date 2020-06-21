@@ -8,9 +8,12 @@
 #include "mpi.h"
 
 // Size of the matrix (NxN)
-#define N 2400
+#define N 2000
 
 MPI_Status status;
+
+// Determines whether to print the matrix when completed
+bool printResults = false;
 
 // Define matrices
 double matrix1[N][N];
@@ -19,7 +22,6 @@ double productMatrix[N][N];
 
 int main(int argc, char **argv)
 {
-
     int numberOfProcessors;
     int processorRank;
     int numberOfWorkers;
@@ -102,6 +104,9 @@ int main(int argc, char **argv)
             MPI_Recv(&productMatrix[matrixSubset][0], rows * N, MPI_DOUBLE, sourceProcessor, 2, MPI_COMM_WORLD, &status);
         }
 
+        // Stop the timer
+        clock_t end = clock();
+
         // Print the matrix results
         // @todo write this to a file instead
         printf("Resulting matrix:\n");
@@ -113,9 +118,6 @@ int main(int argc, char **argv)
             }
             printf("\n");
         }
-
-        // Stop the timer
-        clock_t end = clock();
 
         // Determine and print the total run time
         double runTime = (double)(end - begin) / CLOCKS_PER_SEC;
