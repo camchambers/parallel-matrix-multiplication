@@ -109,7 +109,7 @@ int main(int argc, char **argv)
         {
             for (j = 0; j < N; j++)
             {
-                printf("%6.2f   ", c[i][j]);
+                printf("%6.2f   ", productMatrix[i][j]);
             }
             printf("\n");
         }
