@@ -1,5 +1,5 @@
 # Parallel Matrix Multiplication (MPI)
->  A demonstration of parallel computing with C using the [Open MPI](https://www.open-mpi.org) library. This program multiplies a two-dimensional (NxN) array using a manager-worker parallel computing paradigm. With this approach a dataset is distributed among available worker processes and coordinated by a manager process (a form of data parallelism). 
+>  A demonstration of parallel computing in C using the [Open MPI](https://www.open-mpi.org) library. This program multiplies a set of two-dimensional arrays using a manager-worker paradigm. With this approach a dataset is distributed among available worker processes which are coordinated by a manager process (a form of data parallelism). 
 
 ### Clone
 
