@@ -5,8 +5,9 @@
 
 #include <stdio.h>
 #include <time.h>
-#include "mpi.h"
+#include <stdlib.h>
 #include <stdbool.h>
+#include "mpi.h"
 
 // Size of the matrix (NxN)
 #define N 1000
