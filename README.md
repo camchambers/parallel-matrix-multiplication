@@ -12,6 +12,10 @@ This project requires the Open MPI library.
 ```bash
 mpicc main.c -o parallel
 ```
+## Execution
+```bash
+mpirun parallel
+```
 
 ## Clone
 
