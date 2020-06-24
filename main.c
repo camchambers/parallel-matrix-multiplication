@@ -21,9 +21,12 @@ bool printResults = true;
 void printMatrix(int matrix[N][N]);
 
 // Define matrices
-double matrix1[N][N];
-double matrix2[N][N];
-double productMatrix[N][N];
+int matrix1[N][N];
+int matrix2[N][N];
+int productMatrix[N][N];
+
+// Counter variables
+int i, j, k;
 
 int main(int argc, char **argv)
 {
@@ -42,9 +45,6 @@ int main(int argc, char **argv)
 
     // The subset of a matrix to be processed by workers
     int matrixSubset;
-
-    // Counter variables
-    int i, j, k;
 
     // Initialize MPI environment
     MPI_Init(&argc, &argv);
@@ -65,15 +65,16 @@ int main(int argc, char **argv)
         // Initialize a timer
         clock_t begin = clock();
 
-        printf("Multiplying a %dx%d matrix using %d processors.\n", N, N, numberOfProcessors);
+        printf("\nMultiplying a %dx%d matrix using %d processor(s).\n\n", N, N, numberOfProcessors);
 
         // Populate the matrices with values
         for (i = 0; i < N; i++)
         {
             for (j = 0; j < N; j++)
             {
-                matrix1[i][j] = 1.0;
-                matrix2[i][j] = 2.0;
+
+                matrix1[i][j] = (rand() % 6) + 1;
+                matrix2[i][j] = (rand() % 6) + 1;
             }
         }
 
@@ -91,10 +92,10 @@ int main(int argc, char **argv)
             MPI_Send(&rows, 1, MPI_INT, destinationProcessor, 1, MPI_COMM_WORLD);
 
             // Send rows from matrix 1 to destination worker processor
-            MPI_Send(&matrix1[matrixSubset][0], rows * N, MPI_DOUBLE, destinationProcessor, 1, MPI_COMM_WORLD);
+            MPI_Send(&matrix1[matrixSubset][0], rows * N, MPI_INT, destinationProcessor, 1, MPI_COMM_WORLD);
 
             // Send entire matrix 2 to destination worker processor
-            MPI_Send(&matrix2, N * N, MPI_DOUBLE, destinationProcessor, 1, MPI_COMM_WORLD);
+            MPI_Send(&matrix2, N * N, MPI_INT, destinationProcessor, 1, MPI_COMM_WORLD);
 
             // Determine the next chunk of data to send to the next processor
             matrixSubset = matrixSubset + rows;
@@ -106,7 +107,7 @@ int main(int argc, char **argv)
             sourceProcessor = i;
             MPI_Recv(&matrixSubset, 1, MPI_INT, sourceProcessor, 2, MPI_COMM_WORLD, &status);
             MPI_Recv(&rows, 1, MPI_INT, sourceProcessor, 2, MPI_COMM_WORLD, &status);
-            MPI_Recv(&productMatrix[matrixSubset][0], rows * N, MPI_DOUBLE, sourceProcessor, 2, MPI_COMM_WORLD, &status);
+            MPI_Recv(&productMatrix[matrixSubset][0], rows * N, MPI_INT, sourceProcessor, 2, MPI_COMM_WORLD, &status);
         }
 
         // Stop the timer
@@ -138,8 +139,8 @@ int main(int argc, char **argv)
         sourceProcessor = 0;
         MPI_Recv(&matrixSubset, 1, MPI_INT, sourceProcessor, 1, MPI_COMM_WORLD, &status);
         MPI_Recv(&rows, 1, MPI_INT, sourceProcessor, 1, MPI_COMM_WORLD, &status);
-        MPI_Recv(&matrix1, rows * N, MPI_DOUBLE, sourceProcessor, 1, MPI_COMM_WORLD, &status);
-        MPI_Recv(&matrix2, N * N, MPI_DOUBLE, sourceProcessor, 1, MPI_COMM_WORLD, &status);
+        MPI_Recv(&matrix1, rows * N, MPI_INT, sourceProcessor, 1, MPI_COMM_WORLD, &status);
+        MPI_Recv(&matrix2, N * N, MPI_INT, sourceProcessor, 1, MPI_COMM_WORLD, &status);
 
         /* Perform matrix multiplication */
         for (k = 0; k < N; k++)
