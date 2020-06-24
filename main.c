@@ -10,12 +10,15 @@
 #include "mpi.h"
 
 // Size of the matrix (NxN)
-#define N 1000
+#define N 2
 
 MPI_Status status;
 
 // Determines whether to print the matrix when completed
-bool printResults = false;
+bool printResults = true;
+
+// Print matrix function declaration
+void printMatrix(int matrix[N][N]);
 
 // Define matrices
 double matrix1[N][N];
