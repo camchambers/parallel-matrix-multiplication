@@ -1,7 +1,7 @@
-// A demonstration of parallel computing with C using the MPI library.
-// This program multiplies an NxN array using a manager-worker parallel
-// computing paradigm. With this approach a dataset is distributed among
-// available worker processes and coordinated by a manager process.
+// A demonstration of parallel computing in C using the MPI library. This 
+// program multiplies a set of square matrices using a manager-worker paradigm,
+//  where the workload is distributed among available worker processes and 
+// coordinated by a manager process.
 
 #include <stdio.h>
 #include <time.h>
