@@ -116,15 +116,12 @@ int main(int argc, char **argv)
         // Optionally print  matrix results
         if (printResults == true)
         {
-            printf("Resulting matrix:\n");
-            for (i = 0; i < N; i++)
-            {
-                for (j = 0; j < N; j++)
-                {
-                    printf("%6.2f   ", productMatrix[i][j]);
-                }
-                printf("\n");
-            }
+            printf("Matrix 1:\n");
+            printMatrix(matrix1);
+            printf("Matrix 2:\n");
+            printMatrix(matrix2);
+            printf("Product Matrix:\n");
+            printMatrix(productMatrix);
         }
 
         // Determine and print the total run time
@@ -157,8 +154,21 @@ int main(int argc, char **argv)
 
         MPI_Send(&matrixSubset, 1, MPI_INT, 0, 2, MPI_COMM_WORLD);
         MPI_Send(&rows, 1, MPI_INT, 0, 2, MPI_COMM_WORLD);
-        MPI_Send(&productMatrix, rows * N, MPI_DOUBLE, 0, 2, MPI_COMM_WORLD);
+        MPI_Send(&productMatrix, rows * N, MPI_INT, 0, 2, MPI_COMM_WORLD);
     }
 
     MPI_Finalize();
+}
+
+void printMatrix(int matrix[N][N])
+{
+    for (i = 0; i < N; i++)
+    {
+        for (j = 0; j < N; j++)
+        {
+            printf("%d\t", matrix[i][j]);
+        }
+        printf("\n");
+    }
+    printf("\n");
 }
