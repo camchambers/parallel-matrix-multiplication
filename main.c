@@ -1,6 +1,6 @@
-// A demonstration of parallel computing in C using the MPI library. This 
+// A demonstration of parallel computing in C using the MPI library. This
 // program multiplies a set of square matrices using a manager-worker paradigm,
-//  where the workload is distributed among available worker processes and 
+//  where the workload is distributed among available worker processes and
 // coordinated by a manager process.
 
 #include <stdio.h>
@@ -160,6 +160,11 @@ int main(int argc, char **argv)
     MPI_Finalize();
 }
 
+/**
+ * @brief Prints the contents of an NxN matrix
+ * 
+ * @param matrix An NxN matrix of integers
+ */
 void printMatrix(int matrix[N][N])
 {
     for (i = 0; i < N; i++)
